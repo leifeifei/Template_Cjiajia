@@ -111,7 +111,45 @@ public:
         {
         	return rn != from.rn;
         }
-
+        iterator operator ++(int i)
+        {
+        	iterator it = *this;
+        	RbNode<T> * tmp = NULL;
+        	RbNode<T> * p = NIL;
+        	if (it.node_ptr == NIL)  //当前结点为空时
+        	{
+        		it.node_ptr = rbtree->root;
+        		if (it.node_ptr == NIL)      //当前为空树时
+        		{
+        			return iterator(it.node_ptr,rbtree);
+        		}
+        		else                         //不为空树时
+        		{
+        			if (it.node_ptr->left != NIL)
+        			{
+        				it.node_ptr = Find_Min(it.ptr->left);
+        			}
+        		}
+        	}
+        	else                       //当前结点不为空时
+        	{
+        		if (it.node_ptr->right != NIL)    //若当前结点的右子树不为空时
+        		{
+        			it.node_ptr = Find_Min(it.node_ptr->right);
+        		}
+        		else                              //当前结点右子树为空时，则找到gp
+        		{
+        			p = it.node_ptr->parent;
+        			it.node_ptr = p;
+        			while (p != NIL && it.node_ptr == p->right)
+        			{
+        				it.node_ptr = p;
+        				p = p->parent;
+        			}
+        		}
+        	}
+        	return *this;
+        }
     private:
     	RbNode<T> * rn;
     	RbTree<T> * rt;
