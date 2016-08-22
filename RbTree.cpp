@@ -198,6 +198,7 @@ public:
       {
       	newnode = new RbNode<T>(data,NIL,NIL,NIL,BLACK);
       	root = newnode;
+      	RbTree_Size++;
       	return true;
       }
       RbNode<T> * tmp = root;
@@ -241,6 +242,7 @@ public:
        	  Fix_up(newnode);
        }
        root->color = BLACK;    //保证根结点始终为黑色
+       RbTree_Size++;
        return true;
 	}
     
@@ -375,7 +377,9 @@ public:
 
 	    }
 	    delete del_node;
-	    del_node = NULL;    	
+	    del_node = NULL; 
+	    RbTree_Size -= 1;
+	    return true;
     }
     
     //删除结点时，因破坏性质，调用此函数，可修复性质
